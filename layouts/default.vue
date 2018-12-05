@@ -1,6 +1,7 @@
 <template>
   <div class="all">
-    <LayoutHeader/>
+    <layout-header/>
+    <layout-navbar/>
     <div>
       <nuxt/>
     </div>
@@ -9,10 +10,11 @@
 
 <script>
 import LayoutHeader from '~/components/layout/header';
+import LayoutNavbar from '~/components/layout/navbar';
 
 export default {
   components: {
-    LayoutHeader,
+    LayoutHeader, LayoutNavbar,
   },
 };
 </script>
@@ -22,11 +24,5 @@ export default {
   @import url('https://fonts.googleapis.com/css?family=Roboto');
   .all {
     font-family: 'Roboto', sans-serif;
-  }
-</style>
-
-<style scoped>
-  .container {
-    margin-top: 10px;
   }
 </style>
