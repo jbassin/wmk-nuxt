@@ -73,7 +73,4 @@ export default {
 </script>
 
 <style>
-  .container {
-    margin-top: 10px;
-  }
 </style>

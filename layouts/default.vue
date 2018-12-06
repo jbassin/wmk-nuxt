@@ -2,7 +2,7 @@
   <div class="all">
     <layout-header/>
     <layout-navbar/>
-    <div>
+    <div class="container-margin">
       <nuxt/>
     </div>
   </div>
@@ -21,8 +21,13 @@ export default {
 
 <style>
   @import 'bulmaswatch/lux/bulmaswatch.min.css';
+  @import "@fortawesome/fontawesome-free/css/all.min.css";
   @import url('https://fonts.googleapis.com/css?family=Roboto');
   .all {
     font-family: 'Roboto', sans-serif;
+  }
+  .container-margin {
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 </style>

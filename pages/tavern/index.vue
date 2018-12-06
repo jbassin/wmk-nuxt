@@ -162,9 +162,6 @@ export default {
 </script>
 
 <style scoped>
-  .container {
-    margin-top: 10px;
-  }
   .column {
     border-right: 0.5px solid white;
     border-left: 0.5px solid white;
