@@ -1,9 +1,12 @@
 <template>
   <div class="all">
-    <layout-header/>
-    <layout-navbar/>
-    <div class="container-margin">
-      <nuxt/>
+    <layout-default-gradient/>
+    <div id="z-wrapper">
+      <layout-header/>
+      <layout-navbar/>
+      <div class="container-margin">
+        <nuxt/>
+      </div>
     </div>
   </div>
 </template>
@@ -11,10 +14,13 @@
 <script>
 import LayoutHeader from '~/components/layout/header';
 import LayoutNavbar from '~/components/layout/navbar';
+import LayoutDefaultGradient from '../components/layout/defaultGradient';
 
 export default {
   components: {
-    LayoutHeader, LayoutNavbar,
+    LayoutDefaultGradient,
+    LayoutHeader,
+    LayoutNavbar,
   },
 };
 </script>
@@ -29,5 +35,9 @@ export default {
   .container-margin {
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+  #z-wrapper {
+    z-index: 1;
+    position: relative;
   }
 </style>
