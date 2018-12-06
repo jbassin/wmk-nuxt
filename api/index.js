@@ -22,11 +22,13 @@ db.once('open', () => {
 const tavern = require('./routes/tavern');
 const reputation = require('./routes/reputations');
 const recap = require('./routes/recap');
+const undermountain = require('./routes/undermountain');
 
 // Import API Routes
 app.use(tavern);
 app.use(reputation);
 app.use(recap);
+app.use(undermountain);
 
 // Export the server middleware
 module.exports = {
