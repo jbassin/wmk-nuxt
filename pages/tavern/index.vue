@@ -20,10 +20,20 @@ export default {
       title: 'WKMM: Tavern',
     };
   },
+  async asyncData({ app }) {
+    const { employees } = await app.$axios.$get('/api/tavern/employees');
+    const { moneyflow } = await app.$axios.$get('/api/tavern/moneyflow');
+    const { prospects } = await app.$axios.$get('/api/tavern/prospects');
+    return {
+      employees,
+      moneyflow,
+      prospects,
+    };
+  },
 };
 </script>
 
-<style>
+<style scoped>
   .container {
     margin-top: 10px;
   }
