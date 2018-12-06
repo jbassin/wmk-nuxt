@@ -20,9 +20,11 @@ db.once('open', () => {
 
 // Require API routes
 const tavern = require('./routes/tavern');
+const reputation = require('./routes/reputations');
 
 // Import API Routes
 app.use(tavern);
+app.use(reputation);
 
 // Export the server middleware
 module.exports = {
