@@ -11,7 +11,10 @@ app.use(cors());
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://iridium.duckdns.org:27017/WKMM');
+const options = {
+  useNewUrlParser: true,
+};
+mongoose.connect('mongodb://iridium.duckdns.org:27017/WKMM', options);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', () => {
