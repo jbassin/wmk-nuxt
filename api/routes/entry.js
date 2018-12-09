@@ -30,12 +30,16 @@ router.get('/entries', (req, res) => {
     }));
     const textTypeUntouched = textType(text => text);
     const textTypeTail = textType(R.tail);
+    const textTypeObfuscate = textType(text => R.reduce((accumulator, concat) => {
+      if (concat === ' ') return `${accumulator} `;
+      return `${accumulator}*`;
+    }, '', text));
     const firstEquals = R.curry((equality, text) => R.equals(equality, R.head(text)));
     const formatFragment = R.cond([
       [firstEquals('@'), text => textTypeTail('link')(text)],
       [firstEquals('*'), text => textTypeTail('bold')(text)],
       [firstEquals('_'), text => textTypeTail('italics')(text)],
-      [firstEquals('%'), text => textTypeTail('obfuscated')(text)],
+      [firstEquals('%'), text => textTypeObfuscate('obfuscated')(text)],
       [R.T, text => textTypeUntouched('normal')(text)],
     ]);
     const formatEntry = entry => ({
@@ -51,54 +55,6 @@ router.get('/entries', (req, res) => {
       entry: R.map(formatEntry)(page.entry),
     });
     const formatContainer = container => R.map(formatPage)(container);
-    // formatPage(entries);
-    // _.each(entries, (page, pageIndex) => {
-    //   formattedInfo.push(page);
-    //   _.each(page.entry, (entry, entryIndex) => {
-    //     const entryArray = [];
-    //     _.each(entry.text.split('|'), (text) => {
-    //       switch (text.charAt(0)) {
-    //         case '@':
-    //           entryArray.push({
-    //             type: 'link',
-    //             text: text.substr(1),
-    //           });
-    //           break;
-    //         case '*':
-    //           entryArray.push({
-    //             type: 'bold',
-    //             text: text.substr(1),
-    //           });
-    //           break;
-    //         case '_':
-    //           entryArray.push({
-    //             type: 'italics',
-    //             text: text.substr(1),
-    //           });
-    //           break;
-    //         case '%':
-    //           const rudeString = 'FUCKYOU';
-    //           let obfuString = text.substr(1);
-    //           for (let i = 0; i < obfuString.length; i += 1) {
-    //             if (obfuString.charAt(i) === ' ') continue;
-    //             obfuString = setCharAt(obfuString, i, rudeString.charAt(i % rudeString.length));
-    //           }
-    //           entryArray.push({
-    //             type: 'obfuscated',
-    //             text: obfuString,
-    //           });
-    //           break;
-    //         default:
-    //           entryArray.push({
-    //             type: 'normal',
-    //             text,
-    //           });
-    //           break;
-    //       }
-    //     });
-    //     formattedInfo[pageIndex].entry[entryIndex].text = [JSON.stringify(entryArray)];
-    //   });
-    // });
     res.json({
       entries: formatContainer(entries),
     });
@@ -110,6 +66,30 @@ router.get('/entries/list', (req, res) => {
     if (error) { console.error(error); }
     res.json({
       entries,
+    });
+  }).sort({ _id: 1 });
+});
+
+router.get('/entries/tree', (req, res) => {
+  const root = req.query.root ? req.query.root.replace(/_/g, ' ') : 'index';
+  Entry.find({}, 'title parent', (error, entries) => {
+    if (error) { console.error(error); }
+    const sortEntries = R.sortBy(R.prop('title'));
+    const getChildren = (nodes, node) => R.reduce((accumulator, concat) => {
+      if (node.title === concat.parent) {
+        accumulator.push({
+          title: concat.title,
+          children: getChildren(nodes, concat),
+        });
+      }
+      return accumulator;
+    }, [], nodes);
+    const tree = {
+      title: root,
+      children: getChildren(sortEntries(entries), { title: root }),
+    };
+    res.json({
+      tree,
     });
   }).sort({ _id: 1 });
 });
