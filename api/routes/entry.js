@@ -94,4 +94,22 @@ router.get('/entries/tree', (req, res) => {
   }).sort({ _id: 1 });
 });
 
+router.get('/entries/path', (req, res) => {
+  const root = req.query.root ? req.query.root.replace(/_/g, ' ') : 'index';
+  Entry.find({}, 'title parent', (error, entries) => {
+    if (error) { console.error(error); }
+    const sortEntries = R.sortBy(R.prop('title'));
+    const getPath = (accumulator, nodes, node) => {
+      if (!node) return accumulator;
+      accumulator.push(node.title);
+      return getPath(accumulator, nodes, nodes.find(x => x.title === node.parent));
+    };
+    const pathArray = getPath([], sortEntries(entries), sortEntries(entries).find(x => x.title === root));
+    const path = `/${R.pipe(R.reverse, R.join('/'))(pathArray)}`.replace(/ /g, '_');
+    res.json({
+      path,
+    });
+  }).sort({ _id: 1 });
+});
+
 module.exports = router;
