@@ -1,5 +1,7 @@
 <template>
-  <div class="container">
+  <div
+    v-if="breadcrumbPath"
+    class="container">
     <div class="notification is-primary">
       <nav class="level">
         <div class="level-left">
@@ -11,23 +13,33 @@
         </div>
         <div class="level-right">
           <div class="level-item">
-            <encylopedia-breadcrumb :breadcrumb-path="require('ramda').tail(breadcrumbPath.split('/'))"/>
+            <encyclopedia-breadcrumb :breadcrumb-path="require('ramda').tail(breadcrumbPath.split('/'))"/>
           </div>
         </div>
       </nav>
+      <div class="columns">
+        <div class="column is-4">
+          <encyclopedia-tree/>
+        </div>
+      </div>
       {{ path }}
     </div>
   </div>
+  <error v-else/>
 </template>
 
 <script>
-import EncylopediaBreadcrumb from '~/components/encyclopedia/breadcrumb.vue';
+import EncyclopediaBreadcrumb from '../../components/encyclopedia/breadcrumb';
+import EncyclopediaTree from '../../components/encyclopedia/tree';
+import Error from '../../layouts/error';
 
 const R = require('ramda');
 
 export default {
   components: {
-    EncylopediaBreadcrumb,
+    Error,
+    EncyclopediaTree,
+    EncyclopediaBreadcrumb,
   },
   computed: {
     path() {
