@@ -41,6 +41,7 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
+    '@nuxtjs/redirect-module',
   ],
   /*
   ** Axios module configuration
@@ -48,6 +49,10 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
+
+  redirect: [
+    { from: '^/encyclopedia$', to: '/encyclopedia/index' },
+  ],
 
   serverMiddleware: [
     // API middleware

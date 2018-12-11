@@ -7,7 +7,7 @@
           :key="index"
           class="level-item">
           <nuxt-link
-            :to="`/${item}`"
+            :to="`/${item === 'encyclopedia' ? `${item}/index` : item}`"
             class="button is-rounded is-primary">
             {{ item }}
           </nuxt-link>

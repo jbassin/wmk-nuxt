@@ -16,6 +16,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.5.0",
     "@nuxtjs/axios": "^5.0.0",
+    "@nuxtjs/redirect-module": "^0.2.0",
     "body-parser": "^1.18.3",
     "bulmaswatch": "^0.7.2",
     "consola": "^2.3.0",
