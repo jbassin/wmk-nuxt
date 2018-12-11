@@ -74,8 +74,9 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import TavernProspects from '~/components/tavern/prospects.vue';
+
+const R = require('ramda');
 
 export default {
   components: {
@@ -103,59 +104,34 @@ export default {
   },
   computed: {
     totalCost() {
-      let total = 0;
-      _.each(this.moneyflow, (moneyflow) => {
-        total += moneyflow.value;
-      });
-      return total;
+      return R.reduce((o, n) => o + n.value, 0, this.moneyflow);
     },
     limits() {
-      let max = 0;
-      let min = 0;
-      _.each(this.prospects, (prospect) => {
-        max = prospect.value > max ? prospect.value : max;
-        min = prospect.value < min ? prospect.value : min;
-      });
       return {
-        max,
-        min,
+        max: R.reduce((o, n) => R.max(o, n.value), 0, this.prospects),
+        min: R.reduce((o, n) => R.min(o, n.value), 0, this.prospects),
       };
     },
     sortedProspects() {
-      const copy = _.map(this.prospects, _.clone);
-      return copy.sort((a, b) => b.value - a.value);
+      return R
+        .clone(this.prospects)
+        .sort((a, b) => b.value - a.value);
     },
     status() {
-      let total = 0;
-      _.each(this.sortedProspects, (value) => {
-        total += value.value;
-      });
-      switch (true) {
-        case (total < -25):
-          return 'really bad';
-        case (total < -20):
-          return 'quite bad';
-        case (total < -15):
-          return 'bad';
-        case (total < -10):
-          return 'a little bad';
-        case (total < -5):
-          return 'not good';
-        case (total < 0):
-          return 'kinda okay';
-        case (total < 5):
-          return 'okay';
-        case (total < 10):
-          return 'not bad';
-        case (total < 15):
-          return 'good';
-        case (total < 20):
-          return 'quite good';
-        case (total < 25):
-          return 'very good';
-        default:
-          return 'excellent';
-      }
+      return R.cond([
+        [R.gt(25), R.always('excellent')],
+        [R.gt(20), R.always('very good')],
+        [R.gt(15), R.always('quite good')],
+        [R.gt(10), R.always('good')],
+        [R.gt(5), R.always('not bad')],
+        [R.gt(0), R.always('okay')],
+        [R.gt(-5), R.always('kinda okay')],
+        [R.gt(-10), R.always('not good')],
+        [R.gt(-15), R.always('a little bad')],
+        [R.gt(-20), R.always('bad')],
+        [R.gt(-25), R.always('quite bad')],
+        [R.T, R.always('really bad')],
+      ])(R.reduce((o, n) => o + n.value, 0, this.prospects));
     },
   },
 };
