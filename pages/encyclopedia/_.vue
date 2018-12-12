@@ -19,10 +19,15 @@
       </nav>
       <div class="columns">
         <div class="column is-4">
-          <encyclopedia-tree/>
+          <encyclopedia-tree
+            :path="treePath"
+            :tree="tree"
+            class="notification is-dark"/>
+        </div>
+        <div class="column">
+          {{ path }}
         </div>
       </div>
-      {{ path }}
     </div>
   </div>
   <error v-else/>
@@ -45,6 +50,10 @@ export default {
     path() {
       return R.tail(R.tail(this.$nuxt.$route.path.split('/')));
     },
+    treePath() {
+      const dropLast = R.pipe(R.split('/'), R.dropLast(1), R.join('/'));
+      return `/encyclopedia${dropLast(this.breadcrumbPath)}`;
+    },
   },
   async asyncData({ app, params }) {
     const { path } = await app.$axios.$get('/api/entries/path', {
@@ -52,8 +61,14 @@ export default {
         root: R.last(params.pathMatch.split('/')),
       },
     });
+    const { tree } = await app.$axios.$get('/api/entries/tree', {
+      params: {
+        root: R.last(params.pathMatch.split('/')),
+      },
+    });
     return {
       breadcrumbPath: path === '/' ? null : path,
+      tree,
     };
   },
 };
