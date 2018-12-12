@@ -18,14 +18,14 @@
         </div>
       </nav>
       <div class="columns">
-        <div class="column is-4">
+        <div class="column is-4 no-mobile">
           <encyclopedia-tree
             :path="treePath"
             :tree="tree"
             class="notification is-dark"/>
         </div>
         <div class="column">
-          {{ path }}
+          AAAA
         </div>
       </div>
     </div>
@@ -46,13 +46,19 @@ export default {
     EncyclopediaTree,
     EncyclopediaBreadcrumb,
   },
+  head() {
+    return {
+      title: `WKMM: ${this.title}`,
+    };
+  },
   computed: {
-    path() {
-      return R.tail(R.tail(this.$nuxt.$route.path.split('/')));
-    },
     treePath() {
       const dropLast = R.pipe(R.split('/'), R.dropLast(1), R.join('/'));
       return `/encyclopedia${dropLast(this.breadcrumbPath)}`;
+    },
+    title() {
+      const getLast = R.pipe(R.split('/'), R.last);
+      return getLast(this.breadcrumbPath);
     },
   },
   async asyncData({ app, params }) {
@@ -75,5 +81,9 @@ export default {
 </script>
 
 <style scoped>
-
+  @media (max-width:969px) {
+    .no-mobile {
+      display: none !important;
+    }
+  }
 </style>

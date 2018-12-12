@@ -24,6 +24,11 @@ export default {
       levels,
     };
   },
+  head() {
+    return {
+      title: 'WKMM: Undermountain',
+    };
+  },
 };
 </script>
 
