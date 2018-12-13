@@ -52,6 +52,7 @@ module.exports = {
 
   redirect: [
     { from: '^/encyclopedia$', to: '/encyclopedia/index' },
+    { from: '^/$', to: '/tavern' },
   ],
 
   serverMiddleware: [
