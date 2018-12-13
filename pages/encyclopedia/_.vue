@@ -24,7 +24,10 @@
             class="notification is-dark"/>
         </div>
         <div class="column">
-          <encyclopedia-entry :entry="entry"/>
+          <encyclopedia-entry
+            :entry="entry"
+            :path="treePath"
+            :tree="tree"/>
         </div>
       </div>
     </div>

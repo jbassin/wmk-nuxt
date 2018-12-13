@@ -18,6 +18,7 @@
     "@nuxtjs/axios": "^5.0.0",
     "@nuxtjs/redirect-module": "^0.2.0",
     "body-parser": "^1.18.3",
+    "bulma-divider": "^2.0.1",
     "bulmaswatch": "^0.7.2",
     "consola": "^2.3.0",
     "cors": "^2.8.5",

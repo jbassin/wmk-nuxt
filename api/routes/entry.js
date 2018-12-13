@@ -21,21 +21,27 @@ const EntrySchema = new mongoose.Schema({
 const Entry = mongoose.model('Entry', EntrySchema);
 
 router.get('/entries', (req, res) => {
-  const title = req.query.title ? { title: req.query.title.replace(/_/g, ' ') } : {};
-  Entry.find(title, 'title parent entry', (error, entries) => {
+  const title = req.query.title ? req.query.title.replace(/_/g, ' ') : 'index';
+  Entry.find({}, 'title parent entry', (error, entries) => {
     if (error) { console.error(error); }
     const textType = R.curry((transformFn, type, text) => ({
       type,
       text: transformFn(text),
     }));
+    const sortEntries = R.sortBy(R.prop('title'));
+    const getPath = (accumulator, nodes, node) => {
+      if (!node) return accumulator;
+      accumulator.push(node.title);
+      return getPath(accumulator, nodes, nodes.find(x => x.title === node.parent));
+    };
+    const pathArray = root => getPath([], sortEntries(entries), sortEntries(entries).find(x => x.title === root));
+    const path = root => `/${R.pipe(R.reverse, R.join('/'))(pathArray(root))}`.replace(/ /g, '_');
     const textTypeUntouched = textType(text => text);
     const textTypeTail = textType(R.tail);
-    const textTypeObfuscate = textType(text => R.reduce((accumulator, concat) => {
-      return `${accumulator}${concat === ' ' ? ' ' : '*'}`;
-    }, '', text));
+    const textTypeObfuscate = textType(text => R.reduce((accumulator, concat) => `${accumulator}${concat === ' ' ? ' ' : '*'}`, '', text));
     const firstEquals = R.curry((equality, text) => R.equals(equality, R.head(text)));
     const formatFragment = R.cond([
-      [firstEquals('@'), text => textTypeTail('link')(text)],
+      [firstEquals('@'), text => R.mergeAll([textTypeTail('link')(text), { path: path(text) }])],
       [firstEquals('*'), text => textTypeTail('bold')(text)],
       [firstEquals('_'), text => textTypeTail('italics')(text)],
       [firstEquals('%'), text => textTypeObfuscate('obfuscated')(text)],
@@ -53,9 +59,14 @@ router.get('/entries', (req, res) => {
       parent: page.parent,
       entry: R.map(formatEntry)(page.entry),
     });
+    const fullEntries = R.reduce((acc, concat) => {
+      let returnAcc = acc;
+      if (concat.title === title) returnAcc = R.concat(acc, [concat]);
+      return returnAcc;
+    }, [], entries);
     const formatContainer = container => R.map(formatPage)(container);
     res.json({
-      entries: formatContainer(entries),
+      entries: formatContainer(fullEntries),
     });
   }).sort({ _id: 1 });
 });
