@@ -31,8 +31,7 @@ router.get('/entries', (req, res) => {
     const textTypeUntouched = textType(text => text);
     const textTypeTail = textType(R.tail);
     const textTypeObfuscate = textType(text => R.reduce((accumulator, concat) => {
-      if (concat === ' ') return `${accumulator} `;
-      return `${accumulator}*`;
+      return `${accumulator}${concat === ' ' ? ' ' : '*'}`;
     }, '', text));
     const firstEquals = R.curry((equality, text) => R.equals(equality, R.head(text)));
     const formatFragment = R.cond([

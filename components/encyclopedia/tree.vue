@@ -55,4 +55,7 @@ export default {
   .entry-link {
     text-decoration: none !important;
   }
+  .entry-link:hover{
+    text-decoration: underline !important;
+  }
 </style>

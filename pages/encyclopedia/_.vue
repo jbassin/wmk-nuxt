@@ -24,7 +24,7 @@
             class="notification is-dark"/>
         </div>
         <div class="column">
-          AAAA
+          <encyclopedia-entry :entry="entry"/>
         </div>
       </div>
     </div>
@@ -36,11 +36,13 @@
 import EncyclopediaBreadcrumb from '../../components/encyclopedia/breadcrumb';
 import EncyclopediaTree from '../../components/encyclopedia/tree';
 import Error from '../../layouts/error';
+import EncyclopediaEntry from '../../components/encyclopedia/entry';
 
 const R = require('ramda');
 
 export default {
   components: {
+    EncyclopediaEntry,
     Error,
     EncyclopediaTree,
     EncyclopediaBreadcrumb,
@@ -56,8 +58,8 @@ export default {
       return `/encyclopedia${dropLast(this.breadcrumbPath)}`;
     },
     title() {
-      const getLast = R.pipe(R.split('/'), R.last);
-      return getLast(this.breadcrumbPath);
+      const capitalCase = R.pipe(R.split('/'), R.last, R.split('_'), R.map(word => `${R.toUpper(R.head(word))}${R.toLower(R.tail(word))}`), R.join(' '));
+      return capitalCase(this.breadcrumbPath);
     },
   },
   async asyncData({ app, params }) {
@@ -71,9 +73,15 @@ export default {
         root: R.last(params.pathMatch.split('/')),
       },
     });
+    const { entries } = await app.$axios.$get('/api/entries', {
+      params: {
+        title: R.last(params.pathMatch.split('/')),
+      },
+    });
     return {
       breadcrumbPath: path === '/' ? null : path,
       tree,
+      entry: R.head(entries),
     };
   },
 };

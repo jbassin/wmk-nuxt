@@ -2,19 +2,23 @@
   <nav class="breadcrumb is-right">
     <ul v-if="links.length > 3">
       <li>
-        <nuxt-link :to="links[0].path">
+        <nuxt-link
+          :to="links[0].path"
+          class="link">
           {{ links[0].name }}
         </nuxt-link>
       </li>
       <li>
-        <a>
+        <a class="link">
           ...
         </a>
       </li>
       <li
         v-for="(item, index) in require('ramda').takeLast(2, links)"
         :key="index">
-        <nuxt-link :to="item.path">
+        <nuxt-link
+          :to="item.path"
+          class="link">
           {{ item.name }}
         </nuxt-link>
       </li>
@@ -23,7 +27,9 @@
       <li
         v-for="(item, index) in links"
         :key="index">
-        <nuxt-link :to="item.path">
+        <nuxt-link
+          :to="item.path"
+          class="link">
           {{ item.name }}
         </nuxt-link>
       </li>
@@ -58,5 +64,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .link {
+    text-decoration: none !important;
+  }
+  .link:hover{
+    text-decoration: underline !important;
+  }
 </style>
