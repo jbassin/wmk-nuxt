@@ -47,7 +47,7 @@ export default {
     };
   },
   async asyncData({ app }) {
-    const { recap } = await app.$axios.$get('/api/recap');
+    const { recap } = await app.$axios.$get('http://192.168.1.190:3000/api/recap');
     return {
       recap,
     };
