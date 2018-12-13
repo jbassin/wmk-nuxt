@@ -72,10 +72,10 @@ router.get('/entries', (req, res) => {
 });
 
 router.get('/entries/list', (req, res) => {
-  Entry.find({}, 'title parent', (error, entries) => {
+  Entry.find({}, 'title parent', (error, list) => {
     if (error) { console.error(error); }
     res.json({
-      entries,
+      list,
     });
   }).sort({ _id: 1 });
 });
