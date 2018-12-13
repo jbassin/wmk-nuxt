@@ -17,7 +17,7 @@
           :to="getPath(text.text)">{{ text.text }}</nuxt-link><span v-else>{{ text.text }}</span></span>
         <span v-else-if="text.type === 'bold'"><b>{{ text.text }}</b></span>
         <span v-else-if="text.type === 'italics'"><i>{{ text.text }}</i></span>
-        <span v-else-if="text.type === 'obfuscated'">{{ text.text }}</span>
+        <span v-else-if="text.type === 'obfuscated'"><encyclopedia-obfuscate :input="text.text"/></span>
         <span v-else>{{ text.text }}</span>
       </span>
       <div
@@ -28,10 +28,13 @@
 </template>
 
 <script>
+import EncyclopediaObfuscate from './obfuscate';
+
 const R = require('ramda');
 
 export default {
   name: 'EncyclopediaEntry',
+  components: { EncyclopediaObfuscate },
   props: {
     entry: {
       required: true,
