@@ -3,20 +3,19 @@
     v-if="breadcrumbPath"
     class="container">
     <div class="notification is-primary">
-      <nav class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <p class="title is-4">
-              Encyclopedia
-            </p>
-          </div>
+      <div class="columns level">
+        <div class="column is-5 level-left"/>
+        <div class="column is-2 level-item">
+          <p class="title is-4 has-text-centered">
+            Encyclopedia
+          </p>
         </div>
-        <div class="level-right">
-          <div class="level-item">
+        <div class="column is-5 level-right">
+          <div class="level-item is-pulled-right">
             <encyclopedia-breadcrumb :breadcrumb-path="require('ramda').tail(breadcrumbPath.split('/'))"/>
           </div>
         </div>
-      </nav>
+      </div>
       <div class="columns">
         <div class="column is-4 no-mobile">
           <encyclopedia-tree
