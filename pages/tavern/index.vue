@@ -93,9 +93,9 @@ export default {
     };
   },
   async asyncData({ app }) {
-    const { employees } = await app.$axios.$get('http://192.168.1.190:3000/api/tavern/employees');
-    const { moneyflow } = await app.$axios.$get('http://192.168.1.190:3000/api/tavern/moneyflow');
-    const { prospects } = await app.$axios.$get('http://192.168.1.190:3000/api/tavern/prospects');
+    const { employees } = await app.$axios.$get('http://iridium.duckdns.org:9010/api/tavern/employees');
+    const { moneyflow } = await app.$axios.$get('http://iridium.duckdns.org:9010/api/tavern/moneyflow');
+    const { prospects } = await app.$axios.$get('http://iridium.duckdns.org:9010/api/tavern/prospects');
     return {
       employees,
       moneyflow,
