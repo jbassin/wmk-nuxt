@@ -5,7 +5,7 @@
     <div class="notification is-primary">
       <div class="columns level">
         <div class="column is-4 level-left">
-          <div class="field">
+          <div class="field no-mobile">
             <p class="control has-icons-left">
               <label>
                 <input

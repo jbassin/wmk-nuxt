@@ -20,8 +20,8 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'import/no-unresolved': 'off',
+    'import/no-extraneous-dependencies': 'off',
     'max-len': 'off',
-    'no-underscore-dangle': 'off',
-    'no-unused-expressions': 'off'
+    'no-underscore-dangle': 'off'
   }
 };
