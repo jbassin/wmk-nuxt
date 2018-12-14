@@ -33,8 +33,8 @@ export default {
     font-family: 'Roboto', sans-serif;
   }
   .container-margin {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 7px;
+    margin-bottom: 15px;
   }
   #z-wrapper {
     z-index: 1;
