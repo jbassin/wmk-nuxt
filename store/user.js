@@ -39,9 +39,14 @@ const actions = {
   },
 };
 
+const getters = {
+  isLoggedIn: store => store.username !== '',
+};
+
 export default {
   state,
   mutations,
   actions,
+  getters,
   namespaced: true,
 };
