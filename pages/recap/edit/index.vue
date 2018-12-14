@@ -60,7 +60,7 @@ export default {
     };
   },
   async asyncData({ app }) {
-    const { recap } = await app.$axios.$get('http://iridium.duckdns.org:9010/api/recap');
+    const { recap } = await app.$get('/recap');
     return {
       recap,
     };

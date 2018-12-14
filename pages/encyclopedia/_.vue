@@ -107,7 +107,7 @@ export default {
       this.bestMatches = R.pipe(R.sort((a, b) => b.rating - a.rating), R.filter(item => item.rating > 0), R.map(item => item.target), R.take(10))(allMatches.ratings);
       if (e.keyCode === 13 && this.bestMatches.length > 0) {
         const match = this.bestMatches[this.matchIndex];
-        const { path } = await this.$axios.$get('http://iridium.duckdns.org:9010/api/entries/path', {
+        const { path } = await this.$get('/entries/path', {
           params: {
             root: match.replace(/ /g, '_').toLowerCase(),
           },
@@ -126,22 +126,22 @@ export default {
     },
   },
   async asyncData({ app, params }) {
-    const { path } = await app.$axios.$get('http://iridium.duckdns.org:9010/api/entries/path', {
+    const { path } = await app.$get('/entries/path', {
       params: {
         root: R.last(params.pathMatch.split('/')),
       },
     });
-    const { tree } = await app.$axios.$get('http://iridium.duckdns.org:9010/api/entries/tree', {
+    const { tree } = await app.$get('/entries/tree', {
       params: {
         root: R.last(params.pathMatch.split('/')),
       },
     });
-    const { entries } = await app.$axios.$get('http://iridium.duckdns.org:9010/api/entries', {
+    const { entries } = await app.$get('/entries', {
       params: {
         title: R.last(params.pathMatch.split('/')),
       },
     });
-    const { list } = await app.$axios.$get('http://iridium.duckdns.org:9010/api/entries/list');
+    const { list } = await app.$get('/entries/list');
     return {
       breadcrumbPath: path === '/' ? null : path,
       tree,

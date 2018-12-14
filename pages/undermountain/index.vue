@@ -19,7 +19,7 @@ import UndermountainLevel from '../../components/undermountain/level';
 export default {
   components: { UndermountainLevel },
   async asyncData({ app }) {
-    const { levels } = await app.$axios.$get('http://iridium.duckdns.org:9010/api/undermountain');
+    const { levels } = await app.$get('/undermountain');
     return {
       levels,
     };

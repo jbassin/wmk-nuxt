@@ -44,7 +44,7 @@ export default {
     };
   },
   async asyncData({ app }) {
-    const { reputations } = await app.$axios.$get('http://iridium.duckdns.org:9010/api/reputations');
+    const { reputations } = await app.$get('/reputations');
     return {
       reputations,
     };
