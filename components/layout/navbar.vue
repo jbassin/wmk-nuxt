@@ -4,26 +4,44 @@
       <div class="notification is-primary">
         <nav class="level">
           <div class="level-left">
-            <a
-              class="button is-rounded is-primary"
-              @click="expand(status)">
-              <span>Status</span>
-              <span class="icon is-small">
-                <i
-                  :class="[currentlySelected.name !== 'status' ? 'fa-circle' : 'fa-dot-circle']"
-                  class="far"/>
-              </span>
-            </a>
-            <a
-              class="button is-rounded is-primary"
-              @click="expand(info)">
-              <span>Info</span>
-              <span class="icon is-small">
-                <i
-                  :class="[currentlySelected.name !== 'info' ? 'fa-circle' : 'fa-dot-circle']"
-                  class="far"/>
-              </span>
-            </a>
+            <div class="level-item">
+              <a
+                class="button is-rounded is-primary"
+                @click="expand(status)">
+                <span>Status</span>
+                <span class="icon is-small">
+                  <i
+                    :class="[currentlySelected.name !== 'status' ? 'fa-circle' : 'fa-dot-circle']"
+                    class="far"/>
+                </span>
+              </a>
+            </div>
+            <div class="level-item">
+              <a
+                class="button is-rounded is-primary"
+                @click="expand(info)">
+                <span>Info</span>
+                <span class="icon is-small">
+                  <i
+                    :class="[currentlySelected.name !== 'info' ? 'fa-circle' : 'fa-dot-circle']"
+                    class="far"/>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <a
+                class="button is-rounded is-primary"
+                @click="expand(user)">
+                <span>User</span>
+                <span class="icon is-small">
+                  <i
+                    :class="[currentlySelected.name !== 'user' ? 'fa-circle' : 'fa-dot-circle']"
+                    class="far"/>
+                </span>
+              </a>
+            </div>
           </div>
         </nav>
       </div>
@@ -74,6 +92,21 @@ export default {
         pages: [],
       },
     };
+  },
+  computed: {
+    user() {
+      return {
+        name: 'user',
+        pages: [
+          'register',
+          this.isLoggedIn ? 'logout' : 'login',
+          'settings',
+        ],
+      };
+    },
+    isLoggedIn() {
+      return this.$store.getters['user/isLoggedIn'];
+    },
   },
   methods: {
     expand(pages) {
