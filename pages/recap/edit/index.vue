@@ -1,19 +1,32 @@
 <template>
   <div class="container animated fadeIn">
     <div class="notification is-primary">
-      <p class="title is-4">
-        The Story So Far:
-      </p>
-      <recap-entry
-        v-for="(entry, index) in recap"
-        :key="index"
-        :recap="entry"/>
+      <nav class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <p class="title is-4">
+              Edit Recap:
+            </p>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <a class="button is-link is-rounded">Create New</a>
+          </div>
+        </div>
+      </nav>
+      <div
+        v-if="makeNew"/>
+      <div v-else>
+        <recap-entry
+          :recap="recap[0]"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import RecapEntry from '../../components/recap/entry';
+import RecapEntry from '../../../components/recap/entry';
 
 export default {
   components: {
@@ -38,6 +51,7 @@ export default {
         ],
         year: 214,
       },
+      makeNew: false,
     };
   },
   head() {
@@ -55,4 +69,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>
