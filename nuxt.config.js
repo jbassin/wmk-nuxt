@@ -35,6 +35,7 @@ module.exports = {
   */
   plugins: [
     '~/plugins/vueInject',
+    '~/plugins/vuexPersist',
   ],
 
   /*

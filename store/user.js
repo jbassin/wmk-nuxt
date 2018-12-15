@@ -2,6 +2,8 @@
 const state = () => ({
   username: '',
   password: '',
+  nickname: '',
+  admin: false,
 });
 
 const mutations = {
@@ -11,10 +13,18 @@ const mutations = {
   SET_PASSWORD: (store, { password }) => {
     store.password = password;
   },
+  SET_NICKNAME: (store, { nickname }) => {
+    store.nickname = nickname;
+  },
+  SET_ADMIN: (store, { admin }) => {
+    store.admin = admin;
+  },
 };
 
 const actions = {
-  login: ({ commit }, { username, password }) => {
+  login: ({ commit }, {
+    username, password, nickname, admin,
+  }) => {
     commit({
       type: 'SET_USERNAME',
       username,
@@ -22,6 +32,14 @@ const actions = {
     commit({
       type: 'SET_PASSWORD',
       password,
+    });
+    commit({
+      type: 'SET_NICKNAME',
+      nickname,
+    });
+    commit({
+      type: 'SET_ADMIN',
+      admin,
     });
   },
   setUserInfo: (context, payload) => {
