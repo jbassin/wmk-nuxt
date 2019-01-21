@@ -1,5 +1,5 @@
 <template>
-  <div class="container animated fadeIn">
+  <div class="container">
     <div class="notification is-primary">
       <p class="title is-4">
         Login
@@ -7,7 +7,6 @@
       <br>
       <div class="columns">
         <div
-          v-if="!isLoggedIn"
           class="notification is-primary column is-three-fifths is-offset-one-fifth">
           <div
             v-if="lookupError"
@@ -67,17 +66,6 @@
               </p>
             </div>
           </form>
-        </div>
-        <div
-          v-else
-          class="notification is-primary column is-three-fifths is-offset-one-fifth has-text-centered">
-          <p class="title is-5">
-            Currently logged in as:
-          </p>
-          <br>
-          <p class="subtitle is-6 bottom-margin">
-            {{ vuexUsername }}
-          </p>
         </div>
       </div>
     </div>
@@ -144,9 +132,6 @@ export default {
         valid: true,
       };
     },
-    isLoggedIn() {
-      return this.$store.getters['user/isLoggedIn'];
-    },
     vuexUsername() {
       return this.$store.state.user.username;
     },
@@ -164,13 +149,15 @@ export default {
           const {
             username, password, nickname, admin,
           } = user[0];
-          console.log(username);
           this.$store.dispatch({
             type: 'user/login',
             username,
             password,
             nickname,
             admin,
+          });
+          this.$router.push({
+            path: '/logout',
           });
         }
       }
